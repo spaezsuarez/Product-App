@@ -1,24 +1,44 @@
 from tkinter import ttk #libreria que me ermite hacer la interfaz
 from tkinter import * #Segundo import para traer elements graficos como botones
-import sqlite3 #Modulo de python para conexion con la base de datos de sqlite
+from Persistence.ConexionBD import ConexionBD
 
 class Producto:
 
     #Metodo constructor
     def __init__(self,window):
+
+        #Instancia de un objeto para conectarse a la base de datos 
+        self._db = ConexionBD()
+        self._db.getProducts()
+        #-------------------------------------------------------------------------------------------
         self.window = window
         self.window.title('Product Aplication')
-        #Creacion de un contenedor
+
+        #Creacion de un contenedor y agregar a la ventana que recibe como parametro
         frame = LabelFrame(self.window, text = 'Registrar un nuevo producto')
         frame.grid(row = 0, column = 0, columnspan = 3, pady = 20)
-        #nameINput 
-        Label(text='Name: ').grid(row = 1, column = 0)
-        self.name = Entry(frame).grid(row = 1,column = 1)
 
-        Label(text='Precio: ').grid(row = 2, column = 0)
-        self.price = LabelFrame(frame, text = 'Ingrese el precio:')
+        #nameInput agregado al contenedor
+        Label(frame,text='Name: ').grid(row = 1, column = 0)
+        self.name = Entry(frame)
+        self.name.focus()
+        self.name.grid(row = 1,column = 1)
+
+        #PriceInput agregado al contenedor
+        Label(frame,text='Precio: ').grid(row = 2, column = 0)
+        self.price = Entry(frame)
         self.price.grid(row = 2,column = 1)
+
+        #Creacion de un boton
+        self.btn = ttk.Button(frame,text='Guardar')
+        self.btn.grid(row = 3, columnspan = 2,sticky = W + E)
+
+        #Crear una tabla
+        self.panel = ttk.Treeview(height = 10,column = 2)
+        self.panel.grid(row = 4, column = 0,columnspan = 2)
+        self.panel.heading('#0',text = 'Nombre', anchor = CENTER)
+        self.panel.heading('#1',text = 'Precio',anchor = CENTER)
         
-    
+        
     
         
