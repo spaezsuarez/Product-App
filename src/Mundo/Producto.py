@@ -6,17 +6,15 @@ class Producto:
 
     #Metodo constructor
     def __init__(self,window):
-
         #Instancia de un objeto para conectarse a la base de datos 
         self._db = ConexionBD()
-        self._db.getProducts()
         #-------------------------------------------------------------------------------------------
         self.window = window
         self.window.title('Product Aplication')
 
         #Creacion de un contenedor y agregar a la ventana que recibe como parametro
-        frame = LabelFrame(self.window, text = 'Registrar un nuevo producto')
-        frame.grid(row = 0, column = 0, columnspan = 3, pady = 20)
+        self.frame = LabelFrame(self.window, text = 'Registrar un nuevo producto')
+        self.frame.grid(row = 0, column = 0, columnspan = 3, pady = 20)
 
         #nameInput agregado al contenedor
         Label(frame,text='Name: ').grid(row = 1, column = 0)
@@ -38,7 +36,20 @@ class Producto:
         self.panel.grid(row = 4, column = 0,columnspan = 2)
         self.panel.heading('#0',text = 'Nombre', anchor = CENTER)
         self.panel.heading('#1',text = 'Precio',anchor = CENTER)
+        #-----------------------------------------------------------------------------------------------
+        self.renderData()
         
+    def renderData(self):
+        array = self._db.getProducts()
+        ActualRecords = self.panel.get_children()
+        #Primer ciclo para limpiar la infiormacion existente en la interfaz
+        for element in ActualRecords:
+            self.panel.delete(element)
+        #Segundo ciclo para actualizar la informacion de la interfaz con el objeto de la conslta
+        for newElement in array:
+            self.panel.insert('',0,text = newElement[1], values = newElement[2])
+
+
         
     
         
