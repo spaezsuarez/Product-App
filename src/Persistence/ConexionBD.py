@@ -1,10 +1,13 @@
 import sqlite3 #Modulo de python para conexion con la base de datos de sqlite
-import os.path
 
-class ConexionBD(object):
+class ConexionBD:
 
     def __init__(self):
         self._nameBD = 'database.db'
+        self._insertQuery = 'INSERT INTO producto VALUES(null,?,?)'
+
+    def getInsertQuery(self):
+        return self._insertQuery
 
     def getGeneralData(self,query,params = ()):
         with sqlite3.connect(self._nameBD) as init: #Creo conexio a base de datos
@@ -24,9 +27,7 @@ class ConexionBD(object):
         dbData = self.getGeneralData(consulta)
         return dbData
 
-    def insertProduct(self,product,value):
-        consulta = 'INSERT INTO producto VALUES('+str(product)+','+str(value)+')'
-        self.insertData(consulta)
+        
 
     
 
