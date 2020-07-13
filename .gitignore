@@ -1,2 +1,4 @@
 /src/Persistence/__pycache__
 /src/GUI/__pycache__
+/src/GUI/__init__.py
+/src/Persistence/__init__.py

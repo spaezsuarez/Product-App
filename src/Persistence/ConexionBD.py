@@ -4,10 +4,19 @@ class ConexionBD:
 
     def __init__(self):
         self._nameBD = 'database.db'
-        self._insertQuery = 'INSERT INTO producto VALUES(null,?,?)'
+        self._insertQuery = 'INSERT INTO producto VALUES(null,?,?);'
+        self._getQuery = 'SELECT * FROM producto ORDER BY nombre; '
+        self._deleteQuery = 'DELETE FROM producto WHERE nombre = ?;'
+        self._updateQuery = 'UPDATE FROM producto SET nombre = ?,producto = ? WHERE id = ?'
 
     def getInsertQuery(self):
         return self._insertQuery
+
+    def getDeleteQuery(self):
+        return self._deleteQuery
+
+    def getUpdateQuery(self):
+        return self._updateQuery
 
     def getGeneralData(self,query,params = ()):
         with sqlite3.connect(self._nameBD) as init: #Creo conexio a base de datos
@@ -16,15 +25,14 @@ class ConexionBD:
             init.commit()
         return resultado
 
-    def insertData(self,query,params = ()):
+    def insertQuery(self,query,params = ()):
         with sqlite3.connect(self._nameBD) as init: 
             cursor = init.cursor() 
             cursor.execute(query,params) 
             init.commit() 
 
     def getProducts(self):
-        consulta = 'SELECT * FROM producto ORDER BY nombre '
-        dbData = self.getGeneralData(consulta)
+        dbData = self.getGeneralData(self._getQuery)
         return dbData
 
         
