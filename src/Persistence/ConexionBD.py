@@ -7,16 +7,13 @@ class ConexionBD:
         self._insertQuery = 'INSERT INTO producto VALUES(null,?,?);'
         self._getQuery = 'SELECT * FROM producto ORDER BY nombre; '
         self._deleteQuery = 'DELETE FROM producto WHERE nombre = ?;'
-        self._updateQuery = 'UPDATE FROM producto SET nombre = ?,producto = ? WHERE id = ?'
+       
 
     def getInsertQuery(self):
         return self._insertQuery
 
     def getDeleteQuery(self):
         return self._deleteQuery
-
-    def getUpdateQuery(self):
-        return self._updateQuery
 
     def getGeneralData(self,query,params = ()):
         with sqlite3.connect(self._nameBD) as init: #Creo conexio a base de datos

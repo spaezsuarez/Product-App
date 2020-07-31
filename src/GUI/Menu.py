@@ -93,11 +93,20 @@ class Menu:
             self.mesagge['text'] = 'Selecciona un elemento'
             return
 
+    def updateData(self,name,price):
+        oldPrice = self.price.get()
+        query = 'UPDATE producto SET nombre = {}, precio = {} where precio = {}'.format(name,price,oldPrice)
+        self._db.insertQuery(query,())
+        self.renderData()
+        self.editPanel.destroy()
+
     def editProduct(self):
         self.mesagge['text'] = ''
         name = ''
+        price = ''
         try:
             name = self.panel.item(self.panel.selection())['text']
+            price = self.panel.item(self.panel.selection())['values'][0]
             #self._db.insertQuery(self._dbUpdateQuery(),(name,))
             #self.mesagge['text'] = '{} ha sido eliminado exitosamente'.format(name)
             self.renderData()
@@ -108,10 +117,12 @@ class Menu:
         self.editPanel = Toplevel()
         self.editPanel.title('Editar informacion')
         Label(self.editPanel, text = 'Nombre:').grid(row = 0,column = 1)
-        Entry(self.editPanel, textvariable = StringVar(self.editPanel, value = name),state = 'readonly').grid(row = 0, column = 2)
+        nombreNuevo = Entry(self.editPanel, textvariable = StringVar(self.editPanel, value = name)).grid(row = 0, column = 2)
     
         Label(self.editPanel,text = 'Precio:').grid(row = 1, column = 1)
-        precioNuevo = Entry(self.editPanel).grid(row = 1,column = 2)
+        precioNuevo = Entry(self.editPanel, textvariable = StringVar(self.editPanel,value = price)).grid(row = 1,column = 2)
         
-        
+        Button(self.editPanel,"Editar", command = self.updateData(nombreNuevo,precioNuevo))
+
+        ttk.Button(text = 'Editar')
         
